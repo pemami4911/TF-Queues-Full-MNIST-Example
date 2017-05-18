@@ -1,38 +1,23 @@
+"""
+Source is http://ischlag.github.io/2016/11/07/tensorflow-input-pipeline-for-large-datasets/
+
+Slightly modified by Patrick Emami - 5/17/17
+
+"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
 import gzip
 import os
-import sys
-import time
-
-from six.moves import urllib
-from six.moves import xrange  # pylint: disable=redefined-builtin
 from scipy.misc import imsave
-import tensorflow as tf
 import numpy as np
 import csv
 
-SOURCE_URL = 'http://yann.lecun.com/exdb/mnist/'
-WORK_DIRECTORY = 'data'
 IMAGE_SIZE = 28
 NUM_CHANNELS = 1
 PIXEL_DEPTH = 255
 NUM_LABELS = 10
-
-
-def maybe_download(filename):
-    """Download the data from Yann's website, unless it's already here."""
-    if not tf.gfile.Exists(WORK_DIRECTORY):
-        tf.gfile.MakeDirs(WORK_DIRECTORY)
-    filepath = os.path.join(WORK_DIRECTORY, filename)
-    if not tf.gfile.Exists(filepath):
-        filepath, _ = urllib.request.urlretrieve(SOURCE_URL + filename, filepath)
-        with tf.gfile.GFile(filepath) as f:
-            size = f.Size()
-        print('Successfully downloaded', filename, size, 'bytes.')
-    return filepath
 
 
 def extract_data(filename, num_images):
@@ -57,12 +42,6 @@ def extract_labels(filename, num_images):
         buf = bytestream.read(1 * num_images)
         labels = np.frombuffer(buf, dtype=np.uint8).astype(np.int64)
     return labels
-
-
-# train_data_filename = maybe_download('train-images-idx3-ubyte.gz')
-# train_labels_filename = maybe_download('train-labels-idx1-ubyte.gz')
-# test_data_filename = maybe_download('t10k-images-idx3-ubyte.gz')
-# test_labels_filename = maybe_download('t10k-labels-idx1-ubyte.gz')
 
 # Extract it into np arrays.
 train_data = extract_data('MNIST_data/train-images-idx3-ubyte.gz', 60000)
