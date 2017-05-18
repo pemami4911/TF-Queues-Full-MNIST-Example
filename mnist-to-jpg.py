@@ -1,7 +1,7 @@
 """
-Source is http://ischlag.github.io/2016/11/07/tensorflow-input-pipeline-for-large-datasets/
+Source is https://gist.github.com/ischlag/41d15424e7989b936c1609b53edd1390
 
-Slightly modified by Patrick Emami - 5/17/17
+Slightly modified by Patrick Emami
 
 """
 from __future__ import absolute_import
